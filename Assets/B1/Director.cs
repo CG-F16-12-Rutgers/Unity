@@ -8,9 +8,9 @@ public class Director : MonoBehaviour {
 	public NavAgentController agent1, agent2, agent3, agent4, agent5;
 	private bool selected1, selected2, selected3, selected4, selected5;
 
-	public Text obstacle_text1, obstacle_text2;
-	public ObstacleController obstacle1, obstacle2;
-	private bool obstacle_sel1, obstacle_sel2;
+	public Text obstacle_text1, obstacle_text2, not_carve_text;
+	public ObstacleController obstacle1, obstacle2, not_carve;
+	private bool obstacle_sel1, obstacle_sel2, not_carve_sel;
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +31,9 @@ public class Director : MonoBehaviour {
 
 		obstacle_text1.text = set_obstacle_text (obstacle_sel1, 1);
 		obstacle_text2.text = set_obstacle_text (obstacle_sel2, 2);
+
+		not_carve_sel = false;
+		not_carve_text.text = "not selected";
 	}
 	
 	// Update is called once per frame
@@ -89,6 +92,7 @@ public class Director : MonoBehaviour {
 		if (selected5) {
 			agent5.go_to_target (target);
 		}
+
 	}
 
 	// functions for obstacles
@@ -111,12 +115,24 @@ public class Director : MonoBehaviour {
 		obstacle_text2.text = set_obstacle_text (obstacle_sel2, 2);
 	}
 
+	public void reverse_not_carve () {
+		not_carve_sel = !not_carve_sel;
+		if (not_carve_sel) {
+			not_carve_text.text = "selected";
+		} else {
+			not_carve_text.text = "not selected";
+		}
+	}
+
 	public void move_obstacle (Vector3 dir) {
 		if (obstacle_sel1) {
 			obstacle1.move (dir);
 		}
 		if (obstacle_sel2) {
 			obstacle2.move (dir);
+		}
+		if (not_carve_sel) {
+			not_carve.move (dir);
 		}
 	}
 }
